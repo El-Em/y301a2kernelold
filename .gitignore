@@ -59,6 +59,7 @@ modules.builtin
 #
 # Generated include files
 #
+out
 include/config
 include/linux/version.h
 include/generated
