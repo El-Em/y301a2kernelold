@@ -28,8 +28,7 @@ fi
 make ARCH=arm CROSS_COMPILE=$CCOMPILER -j`grep 'processor' /proc/cpuinfo | wc -l`
 
 # copy kernel and modules to out if not failed
-if [ $? -eq 0 ]
-then
+if [ -e arch/arm/boot/zImage ]; then
 	echo "#########################################################"
 	echo "#          Copying zImage and Modules to Out            #"
 	echo "#########################################################"
@@ -37,8 +36,29 @@ then
 	mkdir -p ./out/modules/
 	cd out
 	cp -f ../arch/arm/boot/zImage .
-	cd -
+	cd ..
 	cp -r `find -iname '*.ko'` ./out/modules/
+	cd out
+	cp -r ../extra/mkbootimg .
+	cp -r ../extra/META-INF .
+	
+	if [ "$kernel" != "2" ]; then
+		cp -r ../ramdisk/stock/boot.img-ramdisk .
+	else
+		cp -r ../ramdisk/custom/boot.img-ramdisk .
+	fi
+	
+	cd boot.img-ramdisk
+	cd wifi
+	mv dhd_4330 dhd_4330.ko
+	cd ..
+	find . | cpio -o -H newc | gzip > ../ramdisk.gz
+	cd ..
+	./mkbootimg --kernel zImage --ramdisk ramdisk.gz --base 0x80200000 --ramdisk_offset 0x02000000 --cmdline "androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 maxcpus=2" --pagesize 2048 -o boot.img	
+	
+	zip -r kernel.zip META-INF boot.img
+	cd ..
+	
 	echo "#########################################################"
 	echo "#                      COMPLETED                        #"
 	echo "#########################################################"
