@@ -829,3 +829,7 @@ service log_check /system/bin/log_check 300
     oneshot
     enable
 
+service synapseinit /sbin/synapse.sh
+    class core
+    user root
+    oneshot

@@ -1,0 +1,51 @@
+#!/sbin/busybox sh
+
+cat << CTAG
+{
+    name:Misc,
+    elements:[
+	{ STitleBar:{
+		title:"Battery"
+	}},
+	{ SLiveLabel:{
+                  action:"echo \"Status: \$(cat /sys/devices/platform/msm_ssbi.0/pm8038-core/pm8921-charger/power_supply/battery/status)\""
+        }},
+	{ SLiveLabel:{
+                  action:"echo \"Level: \$(cat /sys/devices/platform/msm_ssbi.0/pm8038-core/pm8921-charger/power_supply/battery/capacity)%\""
+        }},
+	{ SCheckBox:{
+		description:"Enable this will increase the charing speed with USB, do not sync files while enabled.",
+                label:"Force Fast Charge",
+                default:`cat /sys/kernel/fast_charge/force_fast_charge`,
+                action:"generic /sys/kernel/fast_charge/force_fast_charge"
+        }},
+	{ STitleBar:{
+		title:"Other Settings"
+	}},
+	{ SCheckBox:{
+                description:"When enabled and screen is on, fsync operation is asynchronous. When screen is off, this operation is committed synchronously.",
+                label:"Enable Dynamic Fsync",
+                default:`cat /sys/kernel/dyn_fsync/Dyn_fsync_active`,
+                action:"generic /sys/kernel/dyn_fsync/Dyn_fsync_active"
+        }},
+        { SPane:{
+		title:"Z-RAM"
+        }},
+	{ SSeekBar:{
+       		title:"Disk 1",
+                min:0, max:150, unit:"MB", step:10,
+                default:0,
+                action:"zram zram0"
+	}},
+        { SPane:{
+		title:"Swappines",
+        }},
+	{ SSeekBar:{
+       		title:"Swappines",
+                min:0, max:100, unit:"%", step:5,
+                default:`cat /proc/sys/vm/swappiness`,
+                action:"generic /proc/sys/vm/swappiness"
+	}},
+    ]
+}
+CTAG
