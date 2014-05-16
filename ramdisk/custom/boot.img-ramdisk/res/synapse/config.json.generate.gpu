@@ -35,7 +35,7 @@ cat << CTAG
         }},
 	{ SPane:{
        		title:"GPU Voltage Control",
-		description:"Controls Voltage for the 192mhz, 320mhz and 487mhz steps."
+		description:"Controls Voltage for the 192mhz, 320mhz and 400mhz steps."
         }},
 	{ SSeekBar:{
        		title:"192mhz",
@@ -48,7 +48,7 @@ cat << CTAG
                 action:"gpuvolt nominal"
 	}},
 	{ SSeekBar:{
-       		title:"487mhz",
+       		title:"400mhz",
                 min:700000, max:1300000, unit:"mv", step:25000, weight:0.001,
                 action:"gpuvolt high"
 	}},
