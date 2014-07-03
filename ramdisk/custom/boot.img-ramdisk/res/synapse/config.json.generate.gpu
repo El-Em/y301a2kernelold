@@ -7,10 +7,15 @@ cat << CTAG
 	{ STitleBar:{
 		title:"GPU Frequency scaling"
 	}},
+	{ SLiveLabel:{
+		title:"GPU Frequency",
+		refresh:500,
+		action:"live gpufreq"
+	}},
 	{ SSeekBar:{
        		title:"GPU Max Frequency",
                 unit:"MHz", weight:0.000001,
-		description:"Set the maximum freqency the GPU scales up to",
+		description:"Set the maximum freqency the GPU scales up to.",
 		default:`cat /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk`,
 		action:"generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk",
 		values:[
@@ -29,26 +34,25 @@ cat << CTAG
                 default:`cat /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/pwrscale/trustzone/governor`,
                 action:"generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/pwrscale/trustzone/governor",
                 values:[
-			performance,
 			ondemand,
                 ]
         }},
 	{ SPane:{
        		title:"GPU Voltage Control",
-		description:"Controls Voltage for the 192mhz, 320mhz and 400mhz steps."
+		description:"Controls Voltage for GPU frequency steps."
         }},
 	{ SSeekBar:{
-       		title:"192mhz",
+       		title:"Low",
                 min:700000, max:1300000, unit:"mv", step:25000, weight:0.001,
                 action:"gpuvolt low"
 	}},
 	{ SSeekBar:{
-       		title:"320mhz",
+       		title:"Med",
                 min:700000, max:1300000, unit:"mv", step:25000, weight:0.001,
                 action:"gpuvolt nominal"
 	}},
 	{ SSeekBar:{
-       		title:"400mhz",
+       		title:"High",
                 min:700000, max:1300000, unit:"mv", step:25000, weight:0.001,
                 action:"gpuvolt high"
 	}},

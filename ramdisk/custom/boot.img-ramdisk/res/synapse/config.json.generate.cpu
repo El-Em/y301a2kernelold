@@ -7,6 +7,16 @@ cat << CTAG
 	{ STitleBar:{
 		title:"CPU Frequency scaling"
 	}},
+	{ SLiveLabel:{
+		title:"CPU Frequency",
+		refresh:500,
+		action:"live cpufreq"
+	}},
+	{ SLiveLabel:{
+		title:"CPU Temperature",
+		refresh:500,
+		action:"live cputemp"
+	}},
 	{ SSeekBar:{
        		title:"CPU Max Frequency",
 		description:"Set the maximum freqency the CPU scales up to.",
