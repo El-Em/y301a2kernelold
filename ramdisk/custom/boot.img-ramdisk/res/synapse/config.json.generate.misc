@@ -9,14 +9,9 @@ cat << CTAG
 	}},
 	{ SLiveLabel:{
 		title:"Battery Current Now",
-		refresh:500,
+		refresh:1500,
 		action:"live batterycurrent"
         }},
-	{ SLiveLabel:{
-		title:"Battery Temperature",
-		refresh:500,
-		action:"live batterytemp"
-	}},
 	{ SCheckBox:{
 		description:"Enable this will increase the charing speed with USB, do not sync files while enabled.",
                 label:"Force Fast Charge",
@@ -77,7 +72,7 @@ cat << CTAG
         }},
         { SPane:{
 		title:"Thundersonic Sound Engine",
-		description:"Thundersonic is a new sound control driver for WCD9304 sound card wholly written by varunchitre15, there are currently only 2 controls, more may be added in future."
+		description:"Thundersonic Sound Engine is a new sound control driver for WCD9304 written by varunchitre15, there are currently only 2 controls, more may be added in future."
         }},
 	{ SCheckBox:{
                 label:"Enable Headphone Boost",
@@ -91,6 +86,21 @@ cat << CTAG
                 default:`cat /sys/kernel/thundersonic_engine/speaker_boost`,
                 action:"generic /sys/kernel/thundersonic_engine/speaker_boost"
 	}},
+        { SPane:{
+		title:"TCP Congestion Control"
+        }},
+	{ SOptionList:{
+		title:"TCP Congestion Algorithm",
+		description:"The Transmission Control Protocol is one of the core protocols of the Internet protocol suite (IP), and is so common that the entire suite is often called TCP/IP.",
+                action:"tcp /proc/sys/net/ipv4/tcp_available_congestion_control",
+                values:[
+`
+                        for TCP in \`cat /proc/sys/net/ipv4/tcp_available_congestion_control\` ; do
+				echo "\"$TCP\","
+			done
+`
+                ]
+        }},
         { SPane:{
 		title:"Z-RAM"
         }},
