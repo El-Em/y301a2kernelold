@@ -41,12 +41,19 @@ if [ -e arch/arm/boot/zImage ]; then
 	cd out
 	cp -r ../extra/mkbootimg .
 	cp -r ../extra/META-INF .
+	cp -r ../extra/system .
 	
 	if [ "$kernel" != "2" ]; then
 		cp -r ../ramdisk/stock/boot.img-ramdisk .
 	else
 		cp -r ../ramdisk/custom/boot.img-ramdisk .
 	fi
+
+	cd system
+	cd lib
+	cd modules
+	cp -r ../../../modules/frandom.ko .
+	cd ../../..
 	
 	cd boot.img-ramdisk
 	cd wifi
@@ -56,7 +63,7 @@ if [ -e arch/arm/boot/zImage ]; then
 	cd ..
 	./mkbootimg --kernel zImage --ramdisk ramdisk.gz --base 0x80200000 --ramdisk_offset 0x02000000 --cmdline "androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 maxcpus=2" --pagesize 2048 -o boot.img	
 	
-	zip -r kernel.zip META-INF boot.img
+	zip -r kernel.zip META-INF system boot.img
 	cd ..
 	
 	echo "#########################################################"
